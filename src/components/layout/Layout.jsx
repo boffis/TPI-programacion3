@@ -4,7 +4,9 @@ const Layout = ({ children }) => {
   return (
     <>
     <NavBar/>
+    <Container className="border">
     {children}
+    </Container>
     </>
   )
 }

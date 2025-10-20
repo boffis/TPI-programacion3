@@ -1,7 +1,14 @@
 import {Card} from 'react-bootstrap'
 
-const ItemCard = ({ item }) => {
-    
+const ProductCard = (product) => {
+    const {
+        id,
+        name,
+        imageUrl,
+        value,
+        stock,
+        type
+    } = item
     return (
         <Card>
             <Card.Body>
@@ -13,4 +20,4 @@ const ItemCard = ({ item }) => {
     )
 }
 
-export default ItemCard 
+export default ProductCard 

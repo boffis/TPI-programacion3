@@ -1,6 +1,9 @@
 import { Form, Button } from "react-bootstrap"
 import AuthContainer from "../AuthContainer/AuthContainer"
 import { useState } from "react"
+import useFetch from "../../../hooks/useFetch/useFetch"
+import { toast } from "react-toastify"
+import { useNavigate } from "react-router"
 
 const Register = () => {
   
@@ -11,6 +14,10 @@ const Register = () => {
   const [DNI, setDNI] = useState("")
   const [checkbox, setCheckbox] = useState(false)
   
+
+  const { post, isLoading } = useFetch()
+  const navigate = useNavigate()
+
   const handleChangeInput = (e) => {
     const {name, value} = e.target
     switch(name) {
@@ -58,18 +65,47 @@ const Register = () => {
     setErrors(errors)
     return Object.keys(errors).length === 0
   }
-    
-  
 
+
+  const onSuccessSubmit = (e)=>{
+    navigate("/login")
+    toast("User created succesfully")
+  }
+
+  const onErrorSubmit = (e)=>{
+    const {message} = e
+    const fields = ["email", "DNI", "username", "password"]
+    const errors = {}
+    fields.forEach(field=>{
+      if (message.includes(field.toLowerCase())){
+        errors[field] = message
+      } })
+      console.log(Object.keys(errors))
+    if (Object.keys(errors).length!==0){
+      setErrors(errors)
+    } else{
+      toast(message)
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if(validations()) {
-      console.log("Enviando formulario")
+      
+      post("register", false, {
+        email,
+        password,
+        username,
+        dni:DNI
+      },
+    onSuccessSubmit,
+    onErrorSubmit
+    )
     } else{
       console.log(errors)
     }
 }
+
 
   return (
     <AuthContainer >
@@ -98,7 +134,7 @@ const Register = () => {
 
           <Form.Group className="mb-5">
           <Form.Label>DNI</Form.Label>
-              <Form.Control type="text" name="DNI" onChange={handleChangeInput} value={DNI} placeholder="JuanCarlosEjemplo55" />
+              <Form.Control type="text" name="DNI" onChange={handleChangeInput} value={DNI} placeholder="12345678" />
               <Form.Text id="DNIError" className="text-danger">{errors.DNI?errors.DNI:null}</Form.Text>
           </Form.Group>
 
@@ -109,7 +145,7 @@ const Register = () => {
             <Form.Text id="CheckboxError" className="text-danger">{errors.checkbox?errors.checkbox:null}</Form.Text>
           </Form.Check>
           
-          <Button type="submit">Register</Button>
+          <Button type="submit" >Register</Button>
       </Form>
     </AuthContainer>
   )
