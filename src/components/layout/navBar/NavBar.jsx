@@ -6,11 +6,13 @@ import { FaSignInAlt, FaUserCircle } from "react-icons/fa";
 import Logo from "./Logo.png"
 import { useContext } from "react";
 import { AuthContext } from "../../../services/authContext/AuthContext";
+import { CartContext } from "../../../services/cartContext/CartContext";
 
 const CustomNavBar = () => {
   const navigate = useNavigate()
 
-  const {user, onLogout} = useContext(AuthContext)
+  const {user, onLogout} = useContext(AuthContext);
+  const {onBuy} = useContext(CartContext);
   const handleClickLogo = () => {
     navigate('/home')
   }
@@ -18,12 +20,11 @@ const CustomNavBar = () => {
   const handleClickLogin = () => {
     navigate('/login')
   }
-
-
-
   
-const CustomToggle = React.forwardRef(({ Children, onClick }, ref) => (
-  <FaUserCircle
+  
+  
+  const CustomToggle = React.forwardRef(({ Children, onClick }, ref) => (
+    <FaUserCircle
     style={{cursor:"pointer"}}
     color="black"
     size={30}
@@ -32,12 +33,17 @@ const CustomToggle = React.forwardRef(({ Children, onClick }, ref) => (
       e.preventDefault();
       onClick(e);
     }}
-  />
-));
+    />
+  ));
+  
+  const handleClickCart = () => {
+      navigate('/cart')
+    }
 
   const handleClickLogout = () => { 
     navigate("/login")
     onLogout()
+    onBuy()
   }
 
   const handleClickProfile = () => { 
@@ -57,6 +63,7 @@ const AccountIcons = ()=>{
         id="dropdown-custom-components" />
         <Dropdown.Menu>
           <Dropdown.Item onClick={handleClickProfile}>Profile</Dropdown.Item>
+          <Dropdown.Item onClick={handleClickCart}>Cart</Dropdown.Item>
           {user.status==="SysAdmin"?
           <Dropdown.Item onClick={handleClickAdmin}>Admin Dashboard</Dropdown.Item>:
           null}

@@ -8,10 +8,10 @@ const SearchBar = ({
 }) => {
     return (
         <Form.Group className="mb-5 w-25" controlId="search">
-            <Form.Label>Buscar {entity}:</Form.Label>
+            <Form.Label>Search {entity}:</Form.Label>
             <Form.Control
                 type={type}
-                placeholder={`Buscar ${entity}...`}
+                placeholder={`Search ${entity}...`}
                 onChange={onChange}
                 value={value}
             />

@@ -8,8 +8,14 @@ import Login from './components/Auth/login/Login';
 import Register from './components/Auth/register/Register';
 import Store from './components/store/store';
 import { ToastContainer } from "react-toastify";
-import User from './components/dashboards/user/User';
+import Account from './components/dashboards/account/Account';
 import AddProduct from './components/addProduct/AddProduct';
+import ProtectedLogin from './components/protected/unauthorized/ProtectedLogin';
+import ProtectedStatus from './components/protected/forbidden/ProtectedStatus';
+import ProductDetail from './components/productDetail/ProductDetail';
+import SysAdmin from './components/dashboards/sysadmin/SysAdmin';
+import Cart from './components/cart/Cart';
+import User from './components/user/User';
 
 function App() {
 
@@ -17,10 +23,20 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
+          <Route element = {<ProtectedStatus statusNeeded={"Seller"}/>}>
+            <Route path='newProduct' element={<AddProduct/>}/>
+          </Route>
+          <Route element = {<ProtectedStatus statusNeeded={"SysAdmin"}/>}>
+            <Route path='/admin' element={<SysAdmin/>}/>
+          </Route>
+          <Route element={<ProtectedLogin/>}>
+            <Route path='detail/:id' element={<ProductDetail/>}/>
+            <Route path='user/:id' element={<User/>}/>
+            <Route path='/account' element={<Account/>}/>
+            <Route path='/cart' element={<Cart/>}/>
+          </Route>
           <Route path='/' element={<Navigate to={"/home"}/>}/>
           <Route path='/home' element={<Home/>}/>
-          <Route path='/newProduct' element={<AddProduct/>}/>
-          <Route path='/account' element={<User/>}/>
           <Route path='/store' element={<Store />}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>

@@ -19,29 +19,29 @@ const AddProduct = () => {
 
     const navigate = useNavigate()
     const {post} = useFetch()
-    const {user, handleAddProduct} = useContext(AuthContext)
+    const {user, onAddProduct} = useContext(AuthContext)
 
     const handleChangeInput = (e) => {
     const {name, value} = e.target
     switch(name) {
-      case "name":
-          setName(value)
-        break
-      case "desc":
-        setDesc(value)
-        break
-      case "price":
-        setPrice(value)
-        break
-      case "stock":
-        setStock(value)
-        break
-      case "imageURL":
-        setImageURL(value)
-        break
-      case "type":
-        setType(value)
-        break
+        case "name":
+            setName(value)
+            break
+        case "desc":
+            setDesc(value)
+            break
+        case "price":
+            setPrice(value)
+            break
+        case "stock":
+            setStock(value)
+            break
+        case "imageURL":
+            setImageURL(value)
+            break
+        case "type":
+            setType(value)
+            break
     }
     }
 
@@ -84,7 +84,7 @@ const AddProduct = () => {
             errors.price = "Only two decimal places allowed"
         }
 
-        if (!isImageUrl(imageURL)) {
+        if (isImageUrl(imageURL)) {
             errors.imageURL = "must be an URL to an image"
         }
         
@@ -97,7 +97,7 @@ const AddProduct = () => {
     }
 
     const onSubmitSuccess = (res) =>{
-        handleAddProduct({
+        onAddProduct({
             id: res.productId,
             name,
             stock,
@@ -160,7 +160,7 @@ const AddProduct = () => {
                     <option value="Top">Top</option>
                     <option value="Bottom">Bottom</option>
                     <option value="Footwear">Footwear</option>
-                    <option value="Accesories">Accesories</option>
+                    <option value="Accessory">Accesories</option>
 
                 </Form.Select>
                     <Form.Text muted>

@@ -15,7 +15,7 @@ const useFetch = () => {
             method,
             headers: {
                 ...header,
-                "Authorization": isPrivate ? `Bearer ${user.token}` : ''
+                "Authorization": isPrivate ? `Bearer ${user?.token}` : ''
             },
             body: body && JSON.stringify(body)
         })

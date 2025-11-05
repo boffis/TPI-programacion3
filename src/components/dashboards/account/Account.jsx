@@ -6,13 +6,14 @@ import Layout from "../../layout/Layout"
 import { FaTrashAlt } from 'react-icons/fa';
 import useFetch from "../../../hooks/useFetch/useFetch"
 import { toast } from "react-toastify"
+import ProductCard from "../../shared/productCard/ProductCard"
 
-const User = () => {
+const Account = () => {
 
     
-    const {user, handleApplySeller} = useContext(AuthContext)
+    const {user, handleApplySeller, onLogout} = useContext(AuthContext)
     const navigate = useNavigate()
-    const {put} = useFetch()
+    const {put, dele} = useFetch()
 
     const onClickAddProduct = () => {
         navigate("/newProduct")
@@ -35,12 +36,46 @@ const User = () => {
         )
     }
 
+// should make a modal
+    const handleDeleteAccount = () => {
+        dele(
+            `user/${user.id}`,
+            true,
+            handleDeleteSuccess,
+            handleDeleteError
+        )
+    }
+
+    const handleDeleteSuccess = (data) => {
+        toast(data.message)
+        onLogout()
+    }
+
+    const handleDeleteError = (data) => {
+        toast(data.message)
+    }
     const purchasesRendered = () => {
         if (user.purchases && user.purchases.length !== 0) {
             return(
-                <p>
-                    there are purchases lmao
-                </p>
+                user.purchases.map((purchase, i)=>{
+                    console.log(JSON.stringify(user.purchases))
+                    return(
+                        <Card fluid className="m-5">
+                            <h3>Purchase #{i+1}</h3>
+                            {purchase.products.map(product=>{
+                                return(
+
+                                    <Container className="">
+                                        <h4>{product.name}</h4>
+                                        <h6>Quantity: {product.productPurchase.quantity}</h6>
+                                        <h6>Subtotal: {product.productPurchase.subtotal}</h6>
+                                    </Container>
+                                )
+                            })}
+                            Total: {purchase.total}
+                        </Card>
+                    )
+                })
             )
         } 
         return(
@@ -77,9 +112,12 @@ const User = () => {
         }
         if (user.products && user.products.length !== 0) {
             return(
-                <p>
-                    there are products lmao
-                </p>
+                    user.products.map(e=>{
+                        return(
+                            <ProductCard product={e}/>
+                        )
+                        }
+                )
             )
         } 
         return(
@@ -96,6 +134,11 @@ const User = () => {
                 <Col>
                 <h1>Hi there, {user.username}</h1>
                 </Col>
+                <Col sm={{offset:8}}>
+                <Button variant="danger" onClick={handleDeleteAccount} className="mt-5">
+                    Delete Account
+                </Button>
+                </Col>
             </Row>
 
             <Row>
@@ -105,7 +148,9 @@ const User = () => {
 
             </Row>
             <Row>
+                <Col sm={{span:10 }}>
                 {purchasesRendered()}
+                </Col>
             </Row>
             {user.status!=="Buyer"?
             <>
@@ -131,4 +176,4 @@ const User = () => {
     )
 }
 
-export default User
+export default Account

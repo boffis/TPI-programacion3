@@ -14,7 +14,7 @@ const Login = () => {
     const [password, setPassword] = useState("")
 
     const navigate = useNavigate()
-    const {post} = useFetch()
+    const {post, isLoading} = useFetch()
     const {onLogin} = useContext(AuthContext)
 
 
@@ -48,6 +48,8 @@ const Login = () => {
     }
 
     const onSuccessSubmit = (res) => {
+        console.log(res)
+        console.log(res.products)
         onLogin(res)
         navigate("/home")
     }
@@ -101,7 +103,7 @@ const Login = () => {
                         {errors.password}
                     </Form.Text>
                 </Form.Group>
-                <Button type="submit" className="mb-5">Log in</Button>
+                <Button type="submit" variant={!isLoading?"primary":"secondary"} disabled={isLoading} className="mb-5">{isLoading ? "Loading...":"Login"}</Button>
                 <p onClick={handleClickRegister} className="text-muted"  style={{cursor:"pointer"}}><u>Dont have an account? Click here to make one!</u></p>
             </Form>
         </AuthContainer>

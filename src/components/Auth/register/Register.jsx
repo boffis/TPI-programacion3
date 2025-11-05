@@ -106,7 +106,7 @@ const Register = () => {
     }
 }
 
-
+  
   return (
     <AuthContainer >
       <Form noValidate onSubmit={handleSubmit}>
@@ -145,7 +145,7 @@ const Register = () => {
             <Form.Text id="CheckboxError" className="text-danger">{errors.checkbox?errors.checkbox:null}</Form.Text>
           </Form.Check>
           
-          <Button type="submit" >Register</Button>
+          <Button type="submit" variant={!isLoading ? "primary":"secondary"} disabled={isLoading} >{isLoading ? "Loading...":"Register"}</Button>
       </Form>
     </AuthContainer>
   )
