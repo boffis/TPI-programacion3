@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Spinner } from "react-bootstrap"
 import Layout from "../../layout/Layout"
 import useFetch from "../../../hooks/useFetch/useFetch"
 import { toast } from "react-toastify"
+import ProductCard from "../../shared/productCard/ProductCard"
 
 const SysAdmin = () => {
     const { get, isLoading } = useFetch()
@@ -35,9 +36,15 @@ const SysAdmin = () => {
 
     const renderUsers = () => {
         if (!users || users.length === 0) return <p>No users found.</p>
-        return users.map((u) => (
+        return users.map((u) => {
+            let border = ""
+            if (u.deleted) {
+                border = "danger"
+            }
+            return(
             <Col key={u.id} sm={4} className="mb-4">
                 <Card
+                    border={border}
                     className="shadow-sm p-3 hover-scale"
                     onClick={() => handleUserClick(u.id)}
                     style={{ cursor: "pointer" }}
@@ -51,39 +58,17 @@ const SysAdmin = () => {
                     </Card.Body>
                 </Card>
             </Col>
-        ))
+        )})
     }
 
     const renderProducts = () => {
         if (!products || products.length === 0) return <p>No products found.</p>
-        return products.map((p) => (
-            <Col key={p.id} sm={3} className="mb-4">
-                <Card
-                    className="shadow-sm p-3 hover-scale"
-                    onClick={() => handleProductClick(p.id)}
-                    style={{ cursor: "pointer" }}
-                >
-                    <Card.Img
-                        variant="top"
-                        src={p.imageURL}
-                        style={{
-                            height: "180px",
-                            objectFit: "cover",
-                            borderRadius: "10px",
-                        }}
-                    />
-                    <Card.Body>
-                        <Card.Title>{p.name}</Card.Title>
-                        <Card.Subtitle className="text-muted">
-                            {p.type}
-                        </Card.Subtitle>
-                        <Card.Text>Price: ${p.price}</Card.Text>
-                        <Card.Text>Stock: {p.stock}</Card.Text>
-                        <Card.Text>Owner: {p.user?.username || "Unknown"}</Card.Text>
-                    </Card.Body>
-                </Card>
-            </Col>
-        ))
+        return products.map((p) => {
+            return(<ProductCard
+            key={p.id}
+            product={p}
+            />)
+        })
     }
 
     return (

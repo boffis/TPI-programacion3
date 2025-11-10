@@ -15,17 +15,17 @@ const ProtectedStatus = ({statusNeeded}) => {
     if (!IsTokenValid(user?.token, user?.status, statusNeeded)) {
         return (
             <Layout>
-                <Row className="justify-content-md-center">
+                <Row className="justify-content-md-center p-5">
                     <Col xs={8} className = "">
-                        <Image src="https://http.cat/status/403" fluid/>
+                        <Image src="https://t3.ftcdn.net/jpg/07/30/13/62/360_F_730136273_MIQk4I8Wnpvw4M3GvmUuyYTVL1RJviHK.jpg" fluid/>
                     </Col>
                 </Row>
-                <Row className="justify-content-md-center">
+                <Row className="justify-content-md-center p-5">
                     <Col>
                         <h1> You dont have the permissions to see this screen </h1>
                     </Col>
                 </Row>
-                <Row className="justify-content-md-center">
+                <Row className="justify-content-md-center p-5">
                     <Col>
                         <Button onClick={HandleClickButton}>
                             Go to Home

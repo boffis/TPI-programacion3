@@ -57,7 +57,7 @@ const AddProduct = () => {
 
     const validations = () => {
         const errors = {}
-        const expresionRegularName = /^[a-zA-Z0-9_]{3,100}$/
+        const expresionRegularName = /^[a-zA-Z0-9_ ]{3,100}$/
         if (!name.length){
             errors.name = "A name is required"
         }else if (!expresionRegularName.test(name)){

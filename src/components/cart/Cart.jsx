@@ -84,15 +84,17 @@ const handleClickCard = (id) => {
             <Card  className="m-3 p-2" >
                 <Row>
                     <Row onClick={()=>handleClickCard(e.id)}>
-
+                        <Col>
                         <Image
                         src = {e.imageURL}
                         style={{height:"100px", width:"auto"}}
                         />
                         <h3>{e.name}</h3>
+                        </Col>
                         <Col>
                         <h5>price: {e.price}</h5>
                         <h6>stock: {e.stock}</h6>
+                        <h6>subtotal: {e.price*e.quantity}</h6>
                         </Col>
                     </Row>
                     {renderCartButtons(e)}
@@ -100,6 +102,12 @@ const handleClickCard = (id) => {
             </Card>
         )
     })
+
+    let total = 0
+
+    for (const e of cart) {
+        total = total + (e?.quantity*e?.price)
+    }
 
     return(
         <Layout>
@@ -113,6 +121,8 @@ const handleClickCard = (id) => {
                             {cart?.length>0
                             ? 
                             <div className="d-grid gap-2">
+                                
+                                <h2>Total:{total}</h2>
 
                                 <Button
                                     variant="success"
@@ -122,6 +132,7 @@ const handleClickCard = (id) => {
                                     >
                                     Buy
                                 </Button>
+
                             </div>
                             :null}
                     </Col>

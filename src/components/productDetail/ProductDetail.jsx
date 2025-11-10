@@ -129,7 +129,8 @@ const UpdateForm = ({ updateProduct, updateErrors, onChange, onSubmit }) => {
                     />
                     {(product?.purchases?.length > 0) 
                     ? product.purchases.map (e=>{
-                        return <p>purchase by</p>
+                        console.log(JSON.stringify(e))
+                        return <p key={e.id}>{e.productPurchase.quantity} item/s purchased by user with id: {e.userId}</p>
                     })
                     : 
                         <p>No purchases found</p>
@@ -145,7 +146,7 @@ const UpdateForm = ({ updateProduct, updateErrors, onChange, onSubmit }) => {
 
 const ProductDetail = () => {
 
-    const [product, setProduct] = useState({})
+    const [product, setProduct] = useState(null)
     const [showModal, setShowModal] = useState(false)
     const [updateProduct, setUpdateProduct] = useState({})
     const [updateErrors, setUpdateErrors] = useState({})
@@ -184,7 +185,7 @@ const ProductDetail = () => {
 
     const validations = () => {
         const errors = {}
-        const expresionRegularName = /^[a-zA-Z0-9_]{3,100}$/
+        const expresionRegularName = /^[a-zA-Z0-9_ ]{3,100}$/
         if (updateProduct?.name?.length===0){
             errors.name = "A name is required"
         }else if (expresionRegularName.test(updateProduct.name)){
@@ -330,6 +331,18 @@ const ProductDetail = () => {
     if (isLoading) {
         return (
             <Spinner animation="grow"/>
+        )
+    }
+
+    if (!product) {
+        return(
+            <Layout>
+                <Row>
+                    <h1>
+                        No product found
+                    </h1>
+                </Row>
+            </Layout>
         )
     }
 

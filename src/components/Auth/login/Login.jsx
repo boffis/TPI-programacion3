@@ -6,6 +6,7 @@ import useFetch from "../../../hooks/useFetch/useFetch"
 import { useContext } from "react"
 import { AuthContext } from "../../../services/authContext/AuthContext"
 import { toast } from "react-toastify"
+import { CartContext } from "../../../services/cartContext/CartContext"
 
 const Login = () => {
 
@@ -16,6 +17,7 @@ const Login = () => {
     const navigate = useNavigate()
     const {post, isLoading} = useFetch()
     const {onLogin} = useContext(AuthContext)
+    const {onBuy} = useContext(CartContext)
 
 
     const validations = () => {
@@ -51,6 +53,7 @@ const Login = () => {
         console.log(res)
         console.log(res.products)
         onLogin(res)
+        onBuy()
         navigate("/home")
     }
 

@@ -13,7 +13,7 @@ const UserPage = () => {
     const { user } = useContext(AuthContext)
     const [currentUser, setCurrentUser] = useState(null)
     const navigate = useNavigate()
-    // ✅ Handlers
+    //  Handlers
     const handleGetSuccess = (data) => setCurrentUser(data)
     const handleGetError = (err) => toast(err.message || "Error fetching user")
 
@@ -21,7 +21,7 @@ const UserPage = () => {
         get(`user/${id}`, true, handleGetSuccess, handleGetError)
     }, [id])
 
-    // ✅ Delete user (solo SysAdmin)
+    //  Delete user (only SysAdmin)
     const handleDeleteUser = () => {
         if (!window.confirm("Are you sure you want to delete this account?")) return
         dele(`user/${id}`, true, handleDeleteSuccess, handleDeleteError)
@@ -98,8 +98,12 @@ const UserPage = () => {
                         <h5>{currentUser.email}</h5>
                         <h6>Status: {currentUser.status}</h6>
                     </Col>
-
-                    {user.status === "SysAdmin" && (
+                    {currentUser.deleted && (
+                        <Col sm="auto" className="text-end">
+                            deleted user
+                        </Col>
+                    )}
+                    {user.status === "SysAdmin" && user.id!==currentUser.id && !currentUser.deleted&& (
                         <Col sm="auto" className="text-end">
                             {currentUser.status !== "SysAdmin" && (
                                 <Button

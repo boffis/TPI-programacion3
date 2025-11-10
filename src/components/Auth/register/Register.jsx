@@ -3,6 +3,7 @@ import AuthContainer from "../AuthContainer/AuthContainer"
 import { useState } from "react"
 import useFetch from "../../../hooks/useFetch/useFetch"
 import { toast } from "react-toastify"
+
 import { useNavigate } from "react-router"
 
 const Register = () => {
@@ -10,6 +11,7 @@ const Register = () => {
   const [errors, setErrors] = useState({})
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [repeatPassword, setRepeatPassword] = useState("")
   const [username, setUsername] = useState("")
   const [DNI, setDNI] = useState("")
   const [checkbox, setCheckbox] = useState(false)
@@ -26,6 +28,9 @@ const Register = () => {
         break
       case "password":
         setPassword(value)
+        break
+      case "repeatPassword":
+        setRepeatPassword(value)
         break
       case "username":
         setUsername(value)
@@ -49,6 +54,10 @@ const Register = () => {
 
     if(!password.length) errors.password = "Password is required"
     else if(!expresionRegularPassword.test(password)) errors.password = "Enter a valid password"
+
+    
+    if(!repeatPassword.length) errors.repeatPassword = "Password is required"
+    else if (repeatPassword !== password) errors.repeatPassword = "Passwords must match"
 
     const expresionRegularUsername = /^[a-zA-Z0-9_]{3,20}$/
 
@@ -122,6 +131,13 @@ const Register = () => {
               <Form.Text id="PasswordError">Password must be longer than 8 characters. Must include at least one uppercase letter, one lowercase letter and one number</Form.Text>
               <br />
               <Form.Text id="PasswordError" className="text-danger">{errors.password?errors.password:null}</Form.Text>
+          </Form.Group>
+
+          <Form.Group className="mb-5">
+              <Form.Label>Repeat Password</Form.Label>
+              <Form.Control type="password" name="repeatPassword" onChange={handleChangeInput} value={repeatPassword} />
+              <br />
+              <Form.Text id="RepeatPasswordError" className="text-danger">{errors.repeatPassword?errors.repeatPassword:null}</Form.Text>
           </Form.Group>
 
         <Form.Group className="mb-5">
